@@ -1,7 +1,9 @@
+@import url('../../app/globals.css');
+
 .worldMap {
-    fill: lime;
+    fill: var(--foreground);
 }
 
 .Nation:hover {
-    fill: blue;
+    fill: var(--NationHover);
 }
