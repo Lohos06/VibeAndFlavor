@@ -1,3 +1,7 @@
 .worldMap {
     fill: lime;
 }
+
+.Nation:hover {
+    fill: blue;
+}
