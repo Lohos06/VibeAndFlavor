@@ -12,7 +12,9 @@ CREATE TABLE Nations (
 CREATE TABLE Dishes (
     Id int AUTO_INCREMENT,
     NationId int,
+    Name int,
     Ingredients VARCHAR(255),
+    Recipe VARCHAR(255),
     GoodAdress VARCHAR(255),
     History TEXT,
     CreationDate DATE,
@@ -26,6 +28,7 @@ CREATE TABLE Dishes (
 CREATE TABLE Musics (
     Id int AUTO_INCREMENT,
     NationId int,
+    Name int,
     Style VARCHAR(255),
     Singer VARCHAR(255),
     Link VARCHAR(255),

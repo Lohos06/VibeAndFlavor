@@ -10,13 +10,10 @@ export default function Header({username}: headerProps) {
         <h1>Vibe & Flavor - {username}</h1>
        </div>
        
-        <div className={style.liens}>
-           <p> Qui sommes-nous ?</p>
-           <p>Le concept</p>
-           <p>Inscription</p>
-           <p>Connexion</p>
-        </div>
-       
+        <nav className={style.liens}>
+           <a> Qui sommes-nous ?</a>
+           <a>Le concept</a>
+        </nav>
     </header>
   );
 }
