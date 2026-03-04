@@ -1,23 +1,41 @@
 CREATE DATABASE VibeAndFlavor;
 USE VibeAndFlavor;
 
-CREATE TABLE Dishes (
-    Id int UNIQUE AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE Nations (
+    Id int AUTO_INCREMENT,
     Nation VARCHAR(255),
+    Continent VARCHAR(255),
+
+    PRIMARY KEY (Id)
+);
+
+CREATE TABLE Dishes (
+    Id int AUTO_INCREMENT,
+    NationId int,
     Ingredients VARCHAR(255),
     GoodAdress VARCHAR(255),
     History TEXT,
     CreationDate DATE,
     Price DECIMAL(10,2),
-    Diet VARCHAR(255)
+    Diet VARCHAR(255),
+
+    PRIMARY KEY (Id),
+    FOREIGN KEY (NationId) REFERENCES Nations(Id)
 );
 
 CREATE TABLE Musics (
-    Id int UNIQUE AUTO_INCREMENT PRIMARY KEY,
-    Nation VARCHAR(255),
+    Id int AUTO_INCREMENT,
+    NationId int,
     Style VARCHAR(255),
     Singer VARCHAR(255),
     Link VARCHAR(255),
     History TEXT,
-    CreationDate DATE
+    CreationDate DATE,
+
+    PRIMARY KEY (Id),
+    FOREIGN KEY (NationId) REFERENCES Nations(Id)
 );
+
+-- pour recuperer le plat d'un pays :
+
+SELECT Dishes.* FROM Dishes JOIN Nations ON Dishes.NationId = Nations.Id WHERE Nations.Nation = 'France';
