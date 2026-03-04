@@ -4,7 +4,7 @@
     min-height: 10vh;
 
     display: flex;
-    justify-content: center;
+    justify-content:  space-between;
     align-items: center;
     background-color: #FFF3F3;
     color: #40A2A3;
@@ -15,8 +15,12 @@
 }
 .liens{
     display: flex;
-    justify-content: space-between;
     width: 30%;
-    margin-left:20% ;
+    gap: 30px;
+    margin-right: 30px;
     color: black;
+}
+.title{
+    display: flex;
+    align-items: center;
 }
