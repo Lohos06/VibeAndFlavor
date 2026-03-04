@@ -18,5 +18,22 @@
 
 html, body {
   background: var(--ocean);
+  margin: 0;
+  height: 100%;
+  overflow: hidden; 
   color: var(--foreground);
 }
+
+.layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; 
+}
+
+.main-content {
+  flex: 1;        
+  overflow: auto;   
+  position: relative;
+  width: 100%;
+}
+
