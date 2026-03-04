@@ -3,11 +3,11 @@ import WorldMap from "@/components/worldMap/worldMap";
 
 export default function Home() {
   return (
-    <>
-    <Header username="Pedro" />
-    <main>
-    <WorldMap/>
-    </main>
-    </>
+    <div className="layout-wrapper">
+      <Header username="Pedro" />
+      <main className="main-content">
+        <WorldMap />
+      </main>
+    </div>
   );
 }
