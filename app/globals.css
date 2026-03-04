@@ -1,18 +1,23 @@
 :root {
   --background: #FFF3F3;
-  --foreground: #171717;
-  --NationHover: rgb(0, 123, 255);
+  --foreground: #40A2A3;
+   --ocean:#0171C7;
+  --NationHover: rgb(206, 164, 125);
+  --texte: black;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --background: #000000;
+  --ocean:#183b56;
+  --foreground: #3f7949;
+  --NationHover: rgb(89, 51, 37);
+  --texte:white;
   }
 }
 
 html, body {
-  background: var(--background);
+  background: var(--ocean);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif; 
   margin: 0;
