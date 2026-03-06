@@ -39,6 +39,18 @@ CREATE TABLE Musics (
     FOREIGN KEY (NationId) REFERENCES Nations(Id)
 );
 
+-- pour charger la BDD :
+
+-- Table Nations :
+
+-- importer format csv
+-- Champs séparés par : ,
+-- Champs entourés par : "
+--Champs échappés par : \
+--Lignes terminées par : \n
+
+--Nom des colonnes : Nation,Continent
+
 -- pour recuperer le plat d'un pays :
 
 SELECT Dishes.* FROM Dishes JOIN Nations ON Dishes.NationId = Nations.Id WHERE Nations.Nation = 'France';
