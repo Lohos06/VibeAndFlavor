@@ -1,5 +1,5 @@
 # 🌍 Vibe & Flavor
-Project created by Clarspinon24, yasminmfth and Lohos
+Project created by Clarspinon24(Clara), yasminmfth(Yasmine) and Lohos(Lorenzo)
 
 # 📖 Project Description
 
