@@ -13,7 +13,7 @@ export default function Header({username}: headerProps) {
        </div>
        
         <nav className={style.liens}>
-           <Link href="/Concept" className={style.links}>Le concept</Link>
+           <Link href="/concept" className={style.links}>Le concept</Link>
         </nav>
     </header>
   );

@@ -9,7 +9,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
   --background: #d8d2e6;
-  --ocean:#0171C7;
+  --ocean:#08497b;
   --Nation : #7C9885;
   --NationHover: #6336CC;
   --texte: #0c071a;
@@ -24,5 +24,7 @@
 
 main {
   background: var(--ocean);
-  color: var(--Nation);
+  color: var(--texte);
+  width: 99.1vw;
+  height: 100vh;
 }
