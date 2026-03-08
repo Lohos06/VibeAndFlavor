@@ -26,3 +26,15 @@ main {
   background: var(--ocean);
   color: var(--Nation);
 }
+
+.mapContainer{
+position:relative;
+display:flex;
+justify-content:center;
+align-items:center;
+
+}
+
+.main-content {
+  position: relative;
+}

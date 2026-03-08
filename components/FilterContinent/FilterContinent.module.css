@@ -1,0 +1,19 @@
+.filterBox{
+position:absolute;
+
+bottom:20px;
+left:20px;
+
+background:white;
+
+padding:10px 12px;
+border-radius:6px;
+
+font-size:12px;
+
+display:flex;
+flex-direction:column;
+gap:4px;
+
+box-shadow:0 3px 8px rgba(0,0,0,0.2);
+}

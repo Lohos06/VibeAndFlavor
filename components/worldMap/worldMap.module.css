@@ -1,11 +1,28 @@
 @import url('../../app/globals.css');
 
 .worldMap {
-    fill: var(--Nation);
-    width: 100%;
-    height: 100%;
+  fill: var(--Nation);
+  width: 100%;
+  height: 100%;
+}
+
+.Nation {
+  fill: #9bb4a6;
+  transition: fill .2s;
 }
 
 .Nation:hover {
-    fill: var(--NationHover);
+  fill: var(--NationHover);
+  cursor: pointer;
 }
+
+.active {
+  fill: #6c3bd9;
+}
+
+/* pour éviter que le hover remplace la sélection */
+.active:hover {
+  fill: #6c3bd9;
+}
+
+
