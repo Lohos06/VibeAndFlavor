@@ -1,7 +1,7 @@
 @import url('../../app/globals.css');
 .card{
   position:absolute;
-  top:70px;   /* avant 120px */
+  top:70px;   
   left:50%;
   transform:translateX(-50%);
 

@@ -1,5 +1,4 @@
 @import url('../../app/globals.css');
-
 .countryCard{
 width:600px;
 max-width:90vw;
@@ -66,26 +65,4 @@ margin-bottom:5px;
 .countryCard a{
 color:#0171C7;
 text-decoration:underline;
-}
-
-/* yasmine: mobile fix fiche pays */
-
-@media (max-width:600px){
-
-.countryCard{
-
-width:95vw;
-
-max-height:70vh; /* evite que la fiche prenne tout l'ecran */
-
-margin-bottom:70px; /* laisse de la place pour le filtre */
-
-padding:16px;
-
-}
-
-.content{
-grid-template-columns:1fr; /* une seule colonne */
-}
-
 }
