@@ -13,7 +13,6 @@ export default function Home() {
   const [music, setMusic] = useState<any>(null);
 
   const handleCountryClick = async (countryName: string) => {
-
     setCountry(countryName);
 
     const res = await fetch(`/api/country?name=${countryName}`);
@@ -25,10 +24,21 @@ export default function Home() {
 
   return (
     <div className="layout-wrapper">
+
       <Header username="Patricia" />
+
       <main className="main-content">
-        <WorldMap />
+        <WorldMap onCountryClick={handleCountryClick} />
+
+        <FichePays
+          nation={country}
+          dish={dish}
+          music={music}
+        />
       </main>
+
+      <Footer />
+
     </div>
   );
 }
