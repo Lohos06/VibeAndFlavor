@@ -1,106 +1,187 @@
+"use client";
+
 import style from "./worldMap.module.css";
 import { useEffect, useState } from "react";
 
 type WorldMapProps = {
-  onCountryClick: (country: string, pos: { x: number; y: number }) => void;
+  onCountryClick: (country: string, pos:{x:number,y:number}) => void;
   continentFilter?: string | null;
+  selectedCountry?: string | null;
 };
 
-export default function WorldMap({ onCountryClick, continentFilter }: WorldMapProps) {
+// yasmine: petite fonction pour normaliser les noms de pays
+// evite les problemes accents / espaces / tirets
 
-  const [continentMap, setContinentMap] = useState<Record<string, string>>({});
+function normalize(name:string){
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/\s/g,"")
+    .replace(/-/g,"")
+    .replace(/\./g,"")
+    .replace(/'/g,"");
+}
 
-  // Charger Nation -> Continent depuis API
-  useEffect(() => {
+export default function WorldMap({
+  onCountryClick,
+  continentFilter,
+  selectedCountry
+}:WorldMapProps){
 
-    const loadNations = async () => {
+// yasmine: map pays -> continent
+const [continentMap,setContinentMap] = useState<Record<string,string>>({});
 
-      const res = await fetch("/api/nations");
-      const data = await res.json();
 
-      const map: Record<string, string> = {};
+/* -----------------------------
+   yasmine: charger continents
+--------------------------------*/
 
-      data.nations.forEach((n: any) => {
-        map[n.Nation] = n.Continent;
-      });
+useEffect(()=>{
 
-      setContinentMap(map);
+const loadNations = async()=>{
 
-    };
+try{
 
-    loadNations();
+// appel api nations
+const res = await fetch("/api/nations");
 
-  }, []);
+if(!res.ok){
+console.error("api nations error");
+return;
+}
 
-  // Click pays
-  const handleMapClick = (e: React.MouseEvent<SVGSVGElement>) => {
+const data = await res.json();
 
-    const element = e.target as HTMLElement;
+// map temporaire
+const map:Record<string,string> = {};
 
-    if (!element.classList.contains(style.Nation)) return;
+// construire map
+data.nations.forEach((n:any)=>{
 
-    const classes = Array.from(element.classList);
+const nation = normalize(n.Nation);
+const continent = n.Continent?.replace(/\r/g,"").trim();
 
-    const country = classes.find(
-      (c) => c !== style.Nation && c !== style.active
-    );
+if(nation && continent){
+map[nation] = continent;
+}
 
-    if (!country) return;
+});
 
-    const previous = document.querySelector(`.${style.active}`);
-    if (previous) previous.classList.remove(style.active);
+// sauver map
+setContinentMap(map);
 
-    element.classList.add(style.active);
+}catch(err){
+console.error("erreur continents",err);
+}
 
-    const rect = element.getBoundingClientRect();
+};
 
-    const position = {
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2
-    };
+loadNations();
 
-    onCountryClick(country, position);
-  };
+},[]);
 
-  // Filtre continent
- useEffect(() => {
 
-  if (!continentFilter) return;
 
-  const countries = document.querySelectorAll(`.${style.Nation}`);
+/* -----------------------------
+   yasmine: click pays
+--------------------------------*/
 
-  countries.forEach((country) => {
+const handleMapClick = (e:React.MouseEvent<SVGSVGElement>)=>{
 
-    const el = country as HTMLElement;
+const element = (e.target as HTMLElement).closest("path") as SVGPathElement;
+if(!element) return;
 
-    const classes = Array.from(el.classList);
-    const countryName = classes[1];
+// trouver nom pays
+const classes = element.getAttribute("class")?.split(" ") || [];
+const country = classes.find(c => c !== style.Nation);
 
-    if (continentMap[countryName] === continentFilter) {
-      el.classList.add(style.active);
-    } else {
-      el.classList.remove(style.active);
-    }
-    console.log("Country:", countryName);
-console.log("Continent in DB:", continentMap[countryName]);
-console.log("Filter:", continentFilter);
+if(!country) return;
 
-  });
+// reset couleur
+document.querySelectorAll(`.${style.Nation}`).forEach(el=>{
+el.classList.remove(style.active);
+});
 
-}, [continentFilter, continentMap]);
+// mettre pays selectionné
+element.classList.add(style.active);
 
-  return (
-    <svg
-      id="worldmap"
-      className={style.worldMap}
-      viewBox="0 0 2000 857"
-      width="2000"
-      stroke="black"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth=".2"
-      onClick={handleMapClick}
-    >
+// position popup
+const rect = element.getBoundingClientRect();
+
+onCountryClick(country,{
+x: rect.left + rect.width/2,
+y: rect.top + rect.height/2
+});
+
+};
+
+
+
+/* -----------------------------
+   yasmine: appliquer filtre continent
+--------------------------------*/
+
+useEffect(()=>{
+
+// nettoyer filtre
+const cleanFilter = continentFilter?.replace(/\r/g,"").trim();
+
+// recuperer tous les pays svg
+const countries = document.querySelectorAll(`.${style.Nation}`);
+
+countries.forEach((country)=>{
+
+const el = country as SVGPathElement;
+
+// recuperer nom pays
+const classes = el.getAttribute("class")?.split(" ") || [];
+const rawName = classes.find(c => c !== style.Nation);
+
+if(!rawName) return;
+
+const name = normalize(rawName);
+
+// recuperer continent
+const continent = continentMap[name];
+
+// reset couleur
+el.classList.remove(style.active);
+el.classList.remove(style.continentActive);
+
+// appliquer filtre continent
+if(cleanFilter && continent === cleanFilter){
+el.classList.add(style.continentActive);
+}
+
+// garder pays selectionné prioritaire
+if(selectedCountry && name === normalize(selectedCountry)){
+el.classList.remove(style.continentActive);
+el.classList.add(style.active);
+}
+
+});
+
+},[
+continentFilter,
+continentMap,
+selectedCountry
+]);
+
+
+
+return(
+<svg
+id="worldmap"
+className={style.worldMap}
+viewBox="0 0 2000 857"
+width="2000"
+stroke="#333"
+strokeLinecap="round"
+strokeLinejoin="round"
+strokeWidth=".2"
+onClick={handleMapClick}
+>
 
     <path className={`${style.Nation} Afghanistan`} d="M1383 261.6l1.5 1.8-2.9 0.8-2.4 1.1-5.9 0.8-5.3 1.3-2.4 2.8 1.9 2.7 1.4 3.2-2 2.7 0.8 2.5-0.9 2.3-5.2-0.2 3.1 4.2-3.1 1.7-1.4 3.8 1.1 3.9-1.8 1.8-2.1-0.6-4 0.9-0.2 1.7-4.1 0-2.3 3.7 0.8 5.4-6.6 2.7-3.9-0.6-0.9 1.4-3.4-0.8-5.3 1-9.6-3.3 3.9-5.8-1.1-4.1-4.3-1.1-1.2-4.1-2.7-5.1 1.6-3.5-2.5-1 0.5-4.7 0.6-8 5.9 2.5 3.9-0.9 0.4-2.9 4-0.9 2.6-2-0.2-5.1 4.2-1.3 0.3-2.2 2.9 1.7 1.6 0.2 3 0 4.3 1.4 1.8 0.7 3.4-2 2.1 1.2 0.9-2.9 3.2 0.1 0.6-0.9-0.2-2.6 1.7-2.2 3.3 1.4-0.1 2 1.7 0.3 0.9 5.4 2.7 2.1 1.5-1.4 2.2-0.6 2.5-2.9 3.8 0.5 5.4 0z"></path>
     <path className={`${style.Nation} Angola`} d="M 1121.2 572 1121.8 574 1121.1 577.1 1122 580.1 1121.1 582.5 1121.5 584.7 1109.8 584.6 1109 605.1 1112.6 610.3 1116.2 614.3 1105.8 616.9 1092.3 616 1088.5 613 1065.8 613.2 1065 613.7 1061.7 610.8 1058.1 610.6 1054.7 611.7 1052 612.9 1051.5 608.9 1052.4 603.2 1054.4 597.3 1054.7 594.6 1056.6 588.8 1058 586.2 1061.3 582 1063.2 579.1 1063.8 574.4 1063.5 570.7 1061.9 568.4 1060.4 564.5 1059.1 560.7 1059.4 559.3 1061.1 556.8 1059.5 550.6 1058.3 546.3 1055.5 542.2 1056.1 541 1058.4 540.1 1060.1 540.2 1062.1 539.5 1078.8 539.6 1080.1 544.3 1081.7 548.2 1083 550.3 1085.1 553.6 1088.9 553.1 1090.7 552.2 1093.8 553.1 1094.7 551.5 1096.2 547.8 1099.7 547.5 1100 546.4 1102.9 546.4 1102.4 548.7 1109.2 548.6 1109.3 552.7 1110.4 555.1 1109.5 559 1109.9 563 1111.7 565.4 1111.3 573 1112.7 572.4 1115.1 572.6 1118.6 571.6 1121.2 572 Z"></path>

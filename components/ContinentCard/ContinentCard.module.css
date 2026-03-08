@@ -1,0 +1,38 @@
+@import url('../../app/globals.css');
+.card{
+  position:absolute;
+  top:70px;   /* avant 120px */
+  left:50%;
+  transform:translateX(-50%);
+
+  background:#f1f1f1;
+  padding:30px 40px;
+  border-radius:12px;
+
+  width:650px; /* plus large */
+
+  box-shadow:0 6px 16px rgba(0,0,0,0.2);
+}
+
+.title{
+  text-align:center;
+  font-size:24px; /* un peu plus petit */
+  margin-bottom:18px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr; /* 3 colonnes pour mieux remplir */
+  gap:8px 30px;
+}
+
+.country{
+  cursor:pointer;
+  font-size:14px; /* texte plus petit */
+  line-height:1.4;
+  transition:color .2s;
+}
+
+.country:hover{
+  color:#1976d2;
+}

@@ -1,20 +1,24 @@
 :root {
   --background: #d8d2e6;
   --ocean:#0171C7;
-  --Nation : #71D1D2;
+  --Nation : #4b9395;
   --NationHover: #6336CC;
   --texte: #0c071a;
 }
 
+/* mode sombre */
+
 @media (prefers-color-scheme: dark) {
   :root {
   --background: #d8d2e6;
-  --ocean:#0171C7;
-  --Nation : #7C9885;
+  --ocean:#08497b;
+  --Nation : #5a8267;
   --NationHover: #6336CC;
   --texte: #0c071a;
   }
 }
+
+/* reset simple */
 
 * {
   margin: 0;
@@ -22,19 +26,70 @@
   box-sizing: border-box;
 }
 
+
+/* zone principale */
+
 main {
   background: var(--ocean);
-  color: var(--Nation);
+  color: var(--texte);
+
+  width: 100%;
+  min-height: 100vh;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
+
+
+/* container de la map */
 
 .mapContainer{
 position:relative;
+
 display:flex;
 justify-content:center;
 align-items:center;
 
+width:100%;
+height:100%;
 }
+
+
+/* structure principale */
 
 .main-content {
   position: relative;
+  width:100%;
+  height:100%;
+}
+
+
+
+/* tablette */
+
+@media (max-width:900px){
+
+main{
+padding:10px;
+}
+
+}
+
+
+
+/* mobile */
+
+@media (max-width:600px){
+
+main{
+padding:8px;
+}
+
+.mapContainer{
+flex-direction:column;
+align-items:center;
+justify-content:flex-start;
+}
+
 }

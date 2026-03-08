@@ -1,3 +1,5 @@
+@import url('../../app/globals.css');
+
 .filterBox{
 position:absolute;
 
@@ -16,4 +18,22 @@ flex-direction:column;
 gap:4px;
 
 box-shadow:0 3px 8px rgba(0,0,0,0.2);
+}
+
+
+/* yasmine: mobile -> filtre en bas centré */
+
+@media (max-width:600px){
+
+.filterBox{
+
+bottom:-210px;
+left:50%;
+transform:translateX(-50%);
+
+font-size:14px;
+padding:12px 14px;
+
+}
+
 }

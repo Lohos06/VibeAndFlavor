@@ -6,32 +6,52 @@ import Footer from "@/components/footer/footer";
 import WorldMap from "@/components/worldMap/worldMap";
 import FichePays from "@/components/FichePays/FichePays";
 import FilterContinent from "@/components/FilterContinent/FilterContinent";
+import ContinentCard from "@/components/ContinentCard/ContinentCard";
+import FilterDiet from "@/components/FilterDiet/FilterDiet";
+import DietCard from "@/components/DietCard/DietCard";
 
 export default function Home() {
 
+  // pays selectionné sur la carte
   const [country, setCountry] = useState<string | null>(null);
+
+  // données du plat du pays
   const [dish, setDish] = useState<any>(null);
+
+  // musique associée au pays
   const [music, setMusic] = useState<any>(null);
+
+  // continent du pays selectionné
   const [continent, setContinent] = useState<string | null>(null);
+
+  // filtre continent choisi par l'utilisateur
   const [continentFilter, setContinentFilter] = useState<string | null>(null);
 
+  // filtre regime alimentaire
+  const [dietFilter, setDietFilter] = useState<string | null>(null);
+
+
+  // quand on clique sur un pays dans la carte
   const handleCountryClick = async (
     countryName: string,
-    pos: { x: number; y: number }
+    pos?: { x: number; y: number }
   ) => {
 
+    // sauver le pays selectionné
     setCountry(countryName);
 
-    const res = await fetch(`/api/country?name=${countryName}`);
+    // appel api pour recuperer les infos du pays
+    const res = await fetch(`/api/country?name=${encodeURIComponent(countryName)}`);
     const data = await res.json();
 
-    console.log("API RESULT :", data);
-
+    // sauvegarder les données dans les states
     setDish(data.dish);
     setMusic(data.music);
     setContinent(data.continent);
   };
 
+
+  // fermer la fiche pays
   const closeCard = () => {
     setCountry(null);
     setDish(null);
@@ -39,43 +59,49 @@ export default function Home() {
     setContinent(null);
   };
 
-  // 🔵 FILTRE CONTINENT
-  const highlightContinent = (continent: string) => {
-
-    const countries = document.querySelectorAll(".Nation");
-
-    countries.forEach((country) => {
-
-      const el = country as HTMLElement;
-
-      if (el.dataset.continent === continent) {
-        el.classList.add("active");
-      } else {
-        el.classList.remove("active");
-      }
-
-    });
-
-  };
 
   return (
     <div className="layout-wrapper">
 
+      {/* header du site */}
       <Header username="Patricia" />
 
       <main className="main-content">
 
+        {/* zone principale avec la carte */}
         <div className="mapContainer">
 
-          {/* FILTRE CONTINENT */}
+          {/* filtre par continent */}
           <FilterContinent onChange={setContinentFilter} />
 
-          <WorldMap
-      onCountryClick={handleCountryClick}
-      continentFilter={continentFilter}
-    />
+          {/* filtre par regime alimentaire */}
+          <FilterDiet onChange={setDietFilter} />
 
-          {/* FICHE CENTRÉE */}
+          {/* carte du monde interactive */}
+          <WorldMap
+            onCountryClick={handleCountryClick}
+            continentFilter={continentFilter}
+            selectedCountry={country}
+          />
+
+          {/* afficher liste des pays du continent selectionné */}
+          {continentFilter && !country && (
+            <ContinentCard
+              continent={continentFilter}
+              onCountryClick={(c) => handleCountryClick(c)}
+            />
+          )}
+
+          {/* afficher liste des pays selon regime alimentaire */}
+          {dietFilter && !country && (
+            <DietCard
+            diet={dietFilter}
+            onCountryClick={(c) => handleCountryClick(c)}
+            onClose={() => setDietFilter(null)}
+          />
+          )}
+
+          {/* fiche detail du pays */}
           {dish && (
             <div
               style={{
@@ -100,6 +126,7 @@ export default function Home() {
 
       </main>
 
+      {/* footer du site */}
       <Footer />
 
     </div>

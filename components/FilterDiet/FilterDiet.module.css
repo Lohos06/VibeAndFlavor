@@ -1,0 +1,89 @@
+.filterContainer{
+  position:absolute;
+  top:20px;
+  right:50px;
+  z-index:10;
+}
+
+/* bouton */
+
+.filterButton{
+  background:white;
+  border:1px solid #ccc;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:13px;
+
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* dropdown */
+
+.filterBox{
+
+  position:absolute;
+  top:40px;
+
+  left:50%;
+  transform:translateX(-50%);
+
+  background:#f3f3f3;
+
+  border-radius:6px;
+
+  box-shadow:0 3px 8px rgba(0,0,0,0.25);
+
+  width:160px;
+
+  overflow:hidden;
+}
+
+/* options */
+
+.option{
+  padding:8px 10px;
+  cursor:pointer;
+  border-bottom:1px solid #ddd;
+}
+
+.option:hover{
+  background:#e8e8e8;
+}
+
+
+/*  tablette */
+
+@media (max-width:900px){
+
+.filterContainer{
+  right:20px;
+}
+
+.filterBox{
+  width:180px;
+}
+
+}
+
+
+/*  mobile */
+
+@media (max-width:600px){
+
+.filterContainer{
+  left:50%;
+  right:auto;
+  transform:translateX(-50%);
+}
+
+.filterButton{
+  font-size:14px;
+  padding:8px 14px;
+}
+
+.filterBox{
+  width:200px;
+}
+
+}
