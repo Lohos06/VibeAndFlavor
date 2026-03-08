@@ -9,8 +9,6 @@ CREATE TABLE Nations (
     PRIMARY KEY (Id)
 );
 
--- VibeAndFlavor
-
 CREATE TABLE Dishes (
     Id int AUTO_INCREMENT,
     NationId int,
@@ -40,23 +38,6 @@ CREATE TABLE Musics (
     PRIMARY KEY (Id),
     FOREIGN KEY (NationId) REFERENCES Nations(Id)
 );
-
--- pour importer la BDD :
-
---Aller dans la table Nations :
-
--- importer format csv
--- selctionner le fichier en haut de l'interface
-
--- remplir les champs
--- Champs séparés par : ,
--- Champs entourés par : "
---Champs échappés par : \
---Lignes terminées par : \n
---Nom des colonnes : Nation,Continent
-
-
-
 
 -- pour recuperer le plat d'un pays :
 

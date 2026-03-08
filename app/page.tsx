@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Header from "@/components/header/header";
+import Footer from "@/components/footer/footer";
 import WorldMap from "@/components/worldMap/worldMap";
 import FichePays from "@/components/FichePays/FichePays";
 
@@ -24,21 +25,10 @@ export default function Home() {
 
   return (
     <div className="layout-wrapper">
-
       <Header username="Patricia" />
-
       <main className="main-content">
-
-        <WorldMap onCountryClick={handleCountryClick} />
-
-        <FichePays
-          nation={country}
-          dish={dish}
-          music={music}
-        />
-
+        <WorldMap />
       </main>
-
     </div>
   );
 }
